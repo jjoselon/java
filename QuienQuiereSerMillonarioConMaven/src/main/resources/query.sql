@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS `millonariodb`.`respuesta` (
   CONSTRAINT `fk_respuesta_pregunta`
     FOREIGN KEY (`pregunta_idpregunta`)
     REFERENCES `millonariodb`.`pregunta` (`idpregunta`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-ALTER TABLE `respuesta` ADD `OrdenRespuesta` INT(11) NOT NULL `DescripcionRespuesta`;
-ALTER TABLE `respuesta` ADD `EsCorrecta` BOOLEAN NOT NULL AFTER `OrdenRespuesta`;
+ALTER TABLE `millonariodb`.`respuesta` ADD `OrdenRespuesta` INT(11) NOT NULL AFTER `DescripcionRespuesta`;
+ALTER TABLE `millonariodb`.`respuesta` ADD `EsCorrecta` BOOLEAN NOT NULL AFTER `OrdenRespuesta`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

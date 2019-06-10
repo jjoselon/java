@@ -2,7 +2,7 @@ package com.gamesmall.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+// import java.util.List; // lo usaba con hibernate
 
 public class Pregunta implements
         Serializable {

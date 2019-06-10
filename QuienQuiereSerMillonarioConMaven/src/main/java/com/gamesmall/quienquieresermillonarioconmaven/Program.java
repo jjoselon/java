@@ -1,6 +1,7 @@
 package com.gamesmall.quienquieresermillonarioconmaven;
 
 import com.gamesmall.daos.PreguntaDaoSinHibernate;
+import com.gamesmall.daos.RespuestaDaoSinHibernate;
 import com.gamesmall.entities.Pregunta;
 import com.gamesmall.entities.Respuesta;
 import com.gamesmall.mysql.connection.Connection;
@@ -34,7 +35,7 @@ public class Program {
 
         JSONParser parser = new JSONParser();
 
-        try (Reader reader = new FileReader("C:\\Users\\jjose\\Downloads\\drive-download-20190525T221811Z-001\\hb-o\\QuienQuiereSerMillonarioConMaven\\src\\main\\resources\\file.json")) {
+        try (Reader reader = new FileReader("src/main/resources/file.json")) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             JSONArray questions = (JSONArray) jsonObject.get("preguntas");
             String queryToSaveAllAnswersComposed = "";
@@ -91,7 +92,7 @@ public class Program {
     }
 
     public static void main(String[] args) throws SQLException {
-        
+
         /*
         try {
             seedData();
@@ -99,23 +100,57 @@ public class Program {
             System.out.println(ex.getMessage());
         }
         */
-
+        
+         
         java.sql.Connection conn = connection.getConnection();
         Statement st = conn.createStatement();
-        
+
         PreguntaDaoSinHibernate pdsh = new PreguntaDaoSinHibernate();
-        /*
         Pregunta pregunta1 = new Pregunta();
+        /*
         pdsh.guardar(
                 pregunta1.setEnunciado("enunciado cualquiera").setValor(800)
         );
+        */
+        /*
         pdsh.editar(
                 pregunta1.setId(1).setEnunciado("ahora soy este enunciado cualquiera").setValor(900)
         );
+        */
+        /*
         pdsh.eliminar(
-                pregunta1.setId(1)
+                pregunta1.setId(2)
         );
         */
+
+        RespuestaDaoSinHibernate respuestaDAO = new RespuestaDaoSinHibernate();
+
+        Respuesta respuesta1 = new Respuesta();
+        respuestaDAO.editar(
+                respuesta1.setId(1).setDescripcion("IDE (Integrated development Environment)")
+        );
+
+        // Obtiene el número maximo del orden de las respuestas relacionadas a la pregunta.
+        /*
+        ResultSet numeroRespuesta = respuestaDAO.obtenerNumeroOrdenMaximoDeRespuestaPorId(1);
+        while (numeroRespuesta.next()) {
+            respuestaDAO.guardar(
+                    respuesta1.setDescripcion("ERP").setPregunta(
+                            new Pregunta().setId(1)
+                    ).setNextOrden(numeroRespuesta.getInt("OrdenRespuesta") + 1)
+            );
+        }
+        */
+        
+        // eliminar
+        /*
+        respuestaDAO.eliminar(
+                respuesta1.setId(6).setPregunta(
+                        new Pregunta().setId(1)
+                )
+        );
+        */
+
         ResultSet todasLasPreguntas = pdsh.obtenerTodas();
 
         float dineroTotalGanado = 0;
@@ -131,8 +166,8 @@ public class Program {
                         + " ON r.pregunta_idpregunta = p.idpregunta"
                         + " WHERE p.idpregunta = " + todasLasPreguntas.getInt("idpregunta")
                 );
-                
-                int respuestaCorrecta = 0; 
+
+                int respuestaCorrecta = 0;
                 while (rs.next()) {
                     System.out.println(rs.getInt("OrdenRespuesta") + ". " + rs.getString("DescripcionRespuesta"));
                     if (rs.getBoolean("EsCorrecta")) {
@@ -156,8 +191,6 @@ public class Program {
 
         System.out.println("__ Total dinero ganado: $ " + dineroTotalGanado + " __");
 
-        
-        
         // -- EJEMPLO CON HIBERNATE, NO FUNCIONA EN EL SENA -- //
         /*
         PreguntaDAO preguntaDAO = new PreguntaDAO();
@@ -191,6 +224,6 @@ public class Program {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        */
+         */
     }
 }

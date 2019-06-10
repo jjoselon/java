@@ -6,21 +6,33 @@ public class Respuesta {
     private Pregunta pregunta;
     private boolean isCorrecta = false;
     private String descripcion;
+    private int orden;
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public Respuesta setNextOrden(int orden) {
+        this.orden = orden;
+        return this;
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public Respuesta setId(int id) {
         this.id = id;
+        return this;
     }
 
     public Pregunta getPregunta() {
         return pregunta;
     }
 
-    public void setPregunta(Pregunta pregunta) {
+    public Respuesta setPregunta(Pregunta pregunta) {
         this.pregunta = pregunta;
+        return this;
     }
     
     public boolean getIsCorrecta() {
@@ -34,7 +46,8 @@ public class Respuesta {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
+    public Respuesta setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+        return this;
     }
 }
