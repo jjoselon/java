@@ -2,10 +2,12 @@ package com.gamesmall.quienquieresermillonariojavaswing;
 
 import com.gamesmall.daos.PreguntaDaoSinHibernate;
 import static com.gamesmall.quienquieresermillonariojavaswing.Program.connection;
+import java.awt.GridLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class Window extends javax.swing.JFrame {
 
@@ -21,11 +23,40 @@ public class Window extends javax.swing.JFrame {
      */
     public Window() {
         initComponents();
+        setPropertiesWindow();
         try {
             configuring();
         } catch (SQLException ex) {
 
         }
+    }
+
+    private void setPropertiesWindow() {
+        setTitle("Quien quiere ser millonario");
+        this.setLocationRelativeTo(null);
+
+    }
+
+    private void repaintContent() {
+        getContentPane().removeAll();
+        repaint();
+    }
+
+    private void showTotalPoints() {
+        setLayout(new GridLayout(2, 1));
+        add(new JLabel("Puntos ganados: " + dineroTotalGanado));
+        JButton playAgain = new JButton("Volver a jugar");
+        playAgain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    playAgainActionPerformed(evt);
+                } catch (SQLException ex) {
+                    System.out.println("exception" + ex.getMessage());
+                }
+            }
+        });
+        add(playAgain);
+        validate();
     }
 
     private void configuring() throws SQLException {
@@ -34,9 +65,10 @@ public class Window extends javax.swing.JFrame {
         PreguntaDaoSinHibernate pdsh = new PreguntaDaoSinHibernate();
         pregunta = pdsh.obtenerPorId(numeroPreguntaActual);
 
-        while (pregunta.next()) {
+        if (pregunta.next()) {
             valorPreguntaActual = pregunta.getInt("ValorPregunta");
             enunciado.setText(pregunta.getString("EnunciadoPregunta"));
+            enunciado.setSize(pregunta.getString("EnunciadoPregunta").length(), 10);
             ResultSet rs = st.executeQuery(
                     "SELECT r.*, p.* FROM pregunta AS p"
                     + " INNER JOIN respuesta AS r"
@@ -51,7 +83,7 @@ public class Window extends javax.swing.JFrame {
                     respuestaCorrecta = rs.getInt("OrdenRespuesta");
                 }
             }
-            
+
             if (rs.next()) {
                 segundaRespuesta.setText(rs.getInt("OrdenRespuesta") + ". " + rs.getString("DescripcionRespuesta"));
                 segundaRespuesta.putClientProperty("Id", rs.getInt("OrdenRespuesta"));
@@ -73,6 +105,9 @@ public class Window extends javax.swing.JFrame {
                     respuestaCorrecta = rs.getInt("OrdenRespuesta");
                 }
             }
+        } else {
+            repaintContent();
+            showTotalPoints();
         }
     }
 
@@ -91,78 +126,110 @@ public class Window extends javax.swing.JFrame {
         terceraRespuesta = new javax.swing.JButton();
         cuartaRespuesta = new javax.swing.JButton();
         txtDineroTotalGanado = new javax.swing.JTextField();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
+        enunciado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        enunciado.setText("-");
+        enunciado.setPreferredSize(null);
+
+        primeraRespuesta.setBackground(new java.awt.Color(0, 102, 204));
+        primeraRespuesta.setForeground(new java.awt.Color(255, 255, 255));
         primeraRespuesta.setText("-");
+        primeraRespuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        primeraRespuesta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        primeraRespuesta.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         primeraRespuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 primeraRespuestaActionPerformed(evt);
             }
         });
 
+        segundaRespuesta.setBackground(new java.awt.Color(0, 102, 204));
+        segundaRespuesta.setForeground(new java.awt.Color(255, 255, 255));
         segundaRespuesta.setText("-");
+        segundaRespuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        segundaRespuesta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        segundaRespuesta.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         segundaRespuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 segundaRespuestaActionPerformed(evt);
             }
         });
 
+        terceraRespuesta.setBackground(new java.awt.Color(0, 102, 204));
+        terceraRespuesta.setForeground(new java.awt.Color(255, 255, 255));
         terceraRespuesta.setText("-");
+        terceraRespuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        terceraRespuesta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        terceraRespuesta.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         terceraRespuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 terceraRespuestaActionPerformed(evt);
             }
         });
 
+        cuartaRespuesta.setBackground(new java.awt.Color(0, 102, 204));
+        cuartaRespuesta.setForeground(new java.awt.Color(255, 255, 255));
         cuartaRespuesta.setText("-");
+        cuartaRespuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cuartaRespuesta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        cuartaRespuesta.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         cuartaRespuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cuartaRespuestaActionPerformed(evt);
             }
         });
 
+        txtDineroTotalGanado.setEditable(false);
+        txtDineroTotalGanado.setColumns(10);
         txtDineroTotalGanado.setText("00");
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(enunciado))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(primeraRespuesta)
-                            .addComponent(terceraRespuesta))
-                        .addGap(255, 255, 255)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(segundaRespuesta)
-                            .addComponent(cuartaRespuesta)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtDineroTotalGanado, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cuartaRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(terceraRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(segundaRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(primeraRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(110, 110, 110)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtDineroTotalGanado, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(background, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(enunciado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(0, 136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(enunciado)
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(primeraRespuesta)
-                    .addComponent(segundaRespuesta))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(terceraRespuesta)
-                    .addComponent(cuartaRespuesta))
-                .addGap(97, 97, 97)
-                .addComponent(txtDineroTotalGanado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(background)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(enunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(primeraRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(segundaRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(terceraRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cuartaRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(txtDineroTotalGanado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -181,7 +248,8 @@ public class Window extends javax.swing.JFrame {
                 System.out.println("e" + ex.getMessage());
             }
         } else {
-
+            repaintContent();
+            showTotalPoints();
         }
     }//GEN-LAST:event_primeraRespuestaActionPerformed
 
@@ -198,7 +266,8 @@ public class Window extends javax.swing.JFrame {
                 System.out.println("e" + ex.getMessage());
             }
         } else {
-
+            repaintContent();
+            showTotalPoints();
         }
     }//GEN-LAST:event_segundaRespuestaActionPerformed
 
@@ -216,7 +285,8 @@ public class Window extends javax.swing.JFrame {
                 System.out.println("exception = " + ex.getSQLState());
             }
         } else {
-
+            repaintContent();
+            showTotalPoints();
         }
     }//GEN-LAST:event_terceraRespuestaActionPerformed
 
@@ -233,14 +303,24 @@ public class Window extends javax.swing.JFrame {
                 System.out.println("e" + ex.getMessage());
             }
         } else {
-
+            repaintContent();
+            showTotalPoints();
         }
     }//GEN-LAST:event_cuartaRespuestaActionPerformed
+
+    private void playAgainActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+        numeroPreguntaActual = 1;
+        dineroTotalGanado = 0;
+        repaintContent();
+        initComponents();
+        configuring();
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -274,6 +354,7 @@ public class Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel background;
     private javax.swing.JButton cuartaRespuesta;
     private javax.swing.JLabel enunciado;
     private javax.swing.JButton primeraRespuesta;
