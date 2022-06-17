@@ -35,7 +35,7 @@ public class Program {
 
         JSONParser parser = new JSONParser();
 
-        try (Reader reader = new FileReader("src/main/resources/file.json")) {
+        try (Reader reader = new FileReader("W:\\Development\\IdeaProjects\\QuienQuiereSerMillonarioConMaven\\src\\main\\resources\\file.json")) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             JSONArray questions = (JSONArray) jsonObject.get("preguntas");
             String queryToSaveAllAnswersComposed = "";
@@ -93,13 +93,14 @@ public class Program {
 
     public static void main(String[] args) throws SQLException {
 
-        /*
+
         try {
             seedData();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        */
+
+
         
          
         java.sql.Connection conn = connection.getConnection();

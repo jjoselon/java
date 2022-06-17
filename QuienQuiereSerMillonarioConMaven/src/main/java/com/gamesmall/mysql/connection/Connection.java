@@ -19,7 +19,7 @@ public class Connection {
                 }
              */
             // https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-usagenotes-statements.html
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/millonariodb?user=root&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/millonariodb?user=root&password=1234&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
             // Statement st = connection.createStatement();
             /*
             ResultSet result = st.executeQuery("SELECT * FROM pregunta");
