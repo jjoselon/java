@@ -1,18 +1,16 @@
 package com.gamesmall.daos;
 
 import com.gamesmall.entities.Pregunta;
-import com.gamesmall.mysql.connection.Connection;
+import com.gamesmall.mysql.connection.DBConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class PreguntaDaoSinHibernate {
-    
-    final private Connection objConnection = new Connection();
-    
-    public boolean guardar(Pregunta objPregunta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+
+    public boolean guardar(Pregunta objPregunta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         
         try {
             Statement st = connection.createStatement();
@@ -23,8 +21,8 @@ public class PreguntaDaoSinHibernate {
         }
     }
     
-    public boolean editar(Pregunta objPregunta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public boolean editar(Pregunta objPregunta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         
         try {
             Statement st = connection.createStatement();
@@ -38,8 +36,8 @@ public class PreguntaDaoSinHibernate {
         }
     }
 
-    public boolean eliminar(Pregunta objPregunta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public boolean eliminar(Pregunta objPregunta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         
         try {
             Statement st = connection.createStatement();
@@ -50,8 +48,8 @@ public class PreguntaDaoSinHibernate {
         }
     }
     
-    public ResultSet obtenerPorId(int id) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public ResultSet obtenerPorId(int id) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         ResultSet rs = null;
         
         try {
@@ -63,8 +61,8 @@ public class PreguntaDaoSinHibernate {
         return rs;
     }
 
-    public ResultSet obtenerTodas() {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public ResultSet obtenerTodas() throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         ResultSet rs = null;
         
         try {

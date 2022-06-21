@@ -1,7 +1,7 @@
 package com.gamesmall.daos;
 
 import com.gamesmall.entities.Respuesta;
-import com.gamesmall.mysql.connection.Connection;
+import com.gamesmall.mysql.connection.DBConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +10,8 @@ import java.sql.Statement;
 
 public class RespuestaDaoSinHibernate {
 
-    final private Connection objConnection = new Connection();
-
-    public PreparedStatement guardar(Respuesta objRespuesta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public PreparedStatement guardar(Respuesta objRespuesta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("INSERT INTO respuesta (DescripcionRespuesta, pregunta_idpregunta, OrdenRespuesta, EsCorrecta) VALUES (?, ?, ?, ?)");
@@ -31,8 +29,8 @@ public class RespuestaDaoSinHibernate {
         }
     }
 
-    public PreparedStatement editar(Respuesta objRespuesta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public PreparedStatement editar(Respuesta objRespuesta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         PreparedStatement ps = null;
 
         try {
@@ -47,8 +45,8 @@ public class RespuestaDaoSinHibernate {
         }
     }
 
-    public PreparedStatement eliminar(Respuesta objRespuesta) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public PreparedStatement eliminar(Respuesta objRespuesta) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         PreparedStatement ps = null;
 
         try {
@@ -63,8 +61,8 @@ public class RespuestaDaoSinHibernate {
         }
     }
 
-    public ResultSet obtenerPorId(int id) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public ResultSet obtenerPorId(int id) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         ResultSet rs = null;
 
         try {
@@ -76,8 +74,8 @@ public class RespuestaDaoSinHibernate {
         return rs;
     }
 
-    public ResultSet obtenerTodas() {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public ResultSet obtenerTodas() throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         ResultSet rs = null;
 
         try {
@@ -89,8 +87,8 @@ public class RespuestaDaoSinHibernate {
         return rs;
     }
     
-    public ResultSet obtenerNumeroOrdenMaximoDeRespuestaPorId(int id) {
-        java.sql.Connection connection = this.objConnection.getConnection();
+    public ResultSet obtenerNumeroOrdenMaximoDeRespuestaPorId(int id) throws SQLException {
+        java.sql.Connection connection = DBConnection.getInstance();
         ResultSet rs = null;
 
         try {

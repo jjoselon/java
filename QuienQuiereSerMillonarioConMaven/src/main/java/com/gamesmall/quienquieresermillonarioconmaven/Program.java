@@ -4,7 +4,7 @@ import com.gamesmall.daos.PreguntaDaoSinHibernate;
 import com.gamesmall.daos.RespuestaDaoSinHibernate;
 import com.gamesmall.entities.Pregunta;
 import com.gamesmall.entities.Respuesta;
-import com.gamesmall.mysql.connection.Connection;
+import com.gamesmall.mysql.connection.DBConnection;
 
 import java.io.Reader;
 import java.io.FileReader;
@@ -25,11 +25,9 @@ import org.json.simple.parser.ParseException;
 
 public class Program {
 
-    public static Connection connection = new Connection();
-
     public static void seedData() throws SQLException {
 
-        java.sql.Connection conn = connection.getConnection();
+        java.sql.Connection conn = DBConnection.getInstance();
 
         Statement st = conn.createStatement();
 
@@ -103,7 +101,7 @@ public class Program {
 
         
          
-        java.sql.Connection conn = connection.getConnection();
+        java.sql.Connection conn = DBConnection.getInstance();
         Statement st = conn.createStatement();
 
         PreguntaDaoSinHibernate pdsh = new PreguntaDaoSinHibernate();
