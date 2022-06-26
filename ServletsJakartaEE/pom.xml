@@ -5,12 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jjoselon.enterprise</groupId>
-    <artifactId>ServletsJakartaEE</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>jakarta-servlets-app</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging> <!-- Para indicar que es un proyecto web -->
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <dependencies>
         <dependency>
@@ -22,6 +24,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
