@@ -28,7 +28,6 @@ public class InvoiceServicioImpl implements InvoiceServicio {
 
     /**
      * Con @WebMethod indicamos que son métodos del servicio web
-     * @param Invoice invoice
      * @return String
      */
     @Override
@@ -37,7 +36,8 @@ public class InvoiceServicioImpl implements InvoiceServicio {
         System.out.println("Imprimiento dentro del servicio web con instancia: " + this);
         counter++;
         System.out.println("Valor del contador en método saludar es " + counter);
-        return invoiceRepository.guardar(invoice);
+        //return invoiceRepository.guardar(invoice);
+        return invoice;
     }
 
     @Override

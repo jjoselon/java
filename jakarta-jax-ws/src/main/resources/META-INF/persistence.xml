@@ -2,14 +2,18 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
-          https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
->
+          https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
     <persistence-unit name="jpaFilePersistence" transaction-type="JTA"><!-- name="" puede ser cualquier nombre -->
+        <!-- Este es el proveedor, el que va a "implementar JPA" -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:/MySqlDS</jta-data-source>
         <properties>
-            <property name="hibernate.show.sql" value="true"></property>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"></property>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql:3307/curso_jakarta?serverTimezone=America/Bogota"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.show.sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
         </properties>
     </persistence-unit>
 </persistence>

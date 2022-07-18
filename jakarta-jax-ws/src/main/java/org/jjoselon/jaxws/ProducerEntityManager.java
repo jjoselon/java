@@ -3,7 +3,7 @@ package org.jjoselon.jaxws;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.ws.rs.Produces;
+import jakarta.enterprise.inject.Produces;
 
 @RequestScoped
 public class ProducerEntityManager {
