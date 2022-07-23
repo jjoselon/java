@@ -1,0 +1,14 @@
+{
+  "preguntas" : [
+    {
+      "enunciado": "¿Google Chrome es?",
+      "opciones": [
+        {"descripcion": "IDE", "correcta": false},
+        {"descripcion": "Motor de busqueda", "correcta": false},
+        {"descripcion": "Navegador", "correcta": true},
+        {"descripcion": "Todas las anteriores","correcta": false}
+      ],
+      "valor": 500
+    }
+  ]
+}
