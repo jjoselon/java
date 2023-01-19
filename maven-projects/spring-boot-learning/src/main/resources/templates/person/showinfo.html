@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p>
+        <span th:text="${name}" th:remove="tag"></span>
+        <span th:text="${age}" th:remove="tag"></span>
+    </p>
+	<a href="/person/new">Register again</a>
+</body>
+</html>
