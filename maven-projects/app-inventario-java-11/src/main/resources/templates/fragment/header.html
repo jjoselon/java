@@ -1,0 +1,50 @@
+<div class="container" th:fragment="navbar1">
+    <h1>Inventario - app</h1>
+    <div class="unauthenticated">
+        Autenticarse con GitHub: <a href="/oauth2/authorization/github">Click Here</a>
+    </div>
+    <div class="container authenticated" style="display:none">
+        Autenticado como: <span id="user"></span>
+    </div>
+    <div class="authenticated" style="display:none">
+        <a href="/ui/forms/products/new">Crear nuevo producto</a> |
+        <a href="/ui/forms/products/home">Lista productos</a> |
+        <a href="/swagger-ui/index.html">Swagger UI HTML</a> |
+        <button onClick="logout()" class="btn btn-sm btn-link">Cerrar sesión</button >
+    </div>
+
+    <script th:inline="javascript" type="text/javascript">
+
+            $.get("/user", function(data) {
+                $("#user").html(data.name);
+                $(".unauthenticated").hide()
+                $(".authenticated").show()
+            });
+
+            var logout = function() {
+                $.post("/logout", function() {
+                    $("#user").html('');
+                    $(".unauthenticated").show();
+                    $(".authenticated").hide();
+                    window.location.href = "/";
+                })
+                return true;
+            }
+
+            $.ajaxSetup({
+              beforeSend : function(xhr, settings) {
+                if (settings.type == 'POST' || settings.type == 'PUT'
+                    || settings.type == 'DELETE') {
+                  if (!(/^http:.*/.test(settings.url) || /^https:.*/
+                    .test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-XSRF-TOKEN",
+                      Cookies.get('XSRF-TOKEN'));
+                  }
+                }
+              }
+            });
+
+    </script>
+</div>
+

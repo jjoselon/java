@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Crear nuevo producto</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+  <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+</head>
+<body>
+  <div th:insert="fragment/header::navbar1"></div>
+  <div align="center">
+    <h1>Crear nuevo producto</h1>
+    <br />
+    <form id="form-new-product" method="post" th:object="${product}">
+
+      <table border="0" cellpadding="10">
+        <tr>
+          <td>Nombre de producto:</td>
+          <td><input type="text" id="product-name" th:field="*{name}" /></td>
+        </tr>
+        <tr>
+          <td>Descripción:</td>
+          <td><input type="text" id="product-description" th:field="*{description}" /></td>
+        </tr>
+        <tr>
+          <td>Precio:</td>
+          <td><input type="text" id="product-price" th:field="*{price}" /></td>
+        </tr>
+        <tr>
+          <td>Cantidad:</td>
+          <td><input type="text" id="product-quantity" th:field="*{quantity}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button type="submit">Guardar</button> </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <script th:inline="javascript">
+
+      $("#form-new-product").on("submit", function (e) {
+        e.preventDefault();
+        const product = {
+          name: $("#product-name").val(),
+          description: $("#product-description").val(),
+          price: $("#product-price").val(),
+          quantity: $("#product-quantity").val()
+        };
+
+        $.ajax({
+          type: "POST",
+          url: "/products",
+          contentType: "application/json",
+          data: JSON.stringify(product),
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(`${jqXHR}`, ` ${textStatus}`, ` ${errorThrown}`);
+          },
+          success: function (result) {
+            window.alert(result.msg);
+            window.location.href = "/ui/forms/products/home";
+          }
+        });
+      })
+   </script>
+</body>
+</html>

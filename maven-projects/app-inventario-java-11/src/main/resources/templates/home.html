@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Lista de productos</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+</head>
+<body>
+    <div th:insert="fragment/header::navbar1"></div>
+    <div align="center">
+        <h1>Lista de productos</h1>
+        <br/><br/>
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Description</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Operación</th>
+            </tr>
+            </thead>
+            <tbody class="tbl-list-products-body"></tbody>
+        </table>
+    </div>
+
+    <script th:inline="javascript">
+
+        function deleteProduct(id) {
+            $.ajax({
+              type: "DELETE",
+              url: "/products/" + id,
+              contentType: "application/json",
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(`${jqXHR}`, ` ${textStatus}`, ` ${errorThrown}`);
+              },
+              success: function (result) {
+                window.alert(result.msg);
+                window.location.href = "/ui/forms/products/home";
+              }
+            });
+        }
+
+        function detailProduct(id) {
+            $.ajax({
+              type: "GET",
+              url: "/products/" + id,
+              contentType: "application/json",
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(`${jqXHR}`, ` ${textStatus}`, ` ${errorThrown}`);
+              },
+              success: function (result) {
+                window.alert(`
+                    Nombre: ${result.name}, Descripción: ${result.description},
+                    Precio: ${result.price}, Cantidad: ${result.quantity}
+                `);
+              }
+            });
+        }
+
+        $.ajax({
+          type: "GET",
+          url: "/products",
+          contentType: "application/json",
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(`${jqXHR}`, ` ${textStatus}`, ` ${errorThrown}`);
+          },
+          success: function (products) {
+            for (let product of products) {
+                $(".tbl-list-products-body").append(
+                    `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.description}</td>
+                        <td>${product.price}</td>
+                        <td>${product.quantity}</td>
+                        <td>
+                            <button onclick='detailProduct(${product.id})'>Detalle</button>
+                            <button onclick='deleteProduct(${product.id})'>Borrar</button>
+                            <a href="/ui/forms/products/edit/${product.id}">Editar</a>
+                        </td>
+                    </tr>`
+                );
+            }
+          }
+        });
+
+
+    </script>
+
+</body>
+</html>
+
