@@ -2,6 +2,8 @@ package com.company.webflux.routing;
 
 import com.company.webflux.endpoints.Heroes;
 import com.company.webflux.models.Heroe;
+import com.company.webflux.services.IServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -25,6 +27,9 @@ import java.io.FileNotFoundException;
  */
 @Component
 public class Handler {
+
+    @Autowired
+    private IServiceImpl service;
 
     private static final String EXCEPTION_OCCURRED = "Exception occurred";
     public Mono<ServerResponse> handleRequestOnErrorMap(ServerRequest request) {
@@ -100,8 +105,9 @@ public class Handler {
      * @return Mono
      */
     public Mono<ServerResponse> handleWithErrorReturn(ServerRequest request) {
+
         return sayHello(request)
-            .onErrorReturn("Hello, Stranger")
+            .onErrorReturn(service.sayHello())
             .flatMap(s -> ServerResponse.ok()
                 .contentType(TEXT_PLAIN)
                 .bodyValue(s));

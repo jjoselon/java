@@ -12,15 +12,63 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class WebfluxApplication {
-
 
 	public static void main(String[] args) {
 		System.out.println("JDK version " + System.getProperty("java.version"));
 		SpringApplication.run(WebfluxApplication.class, args);
 //		mono_squad();
+		//mapAndFilterOperatorTest();
+		//flatMapOperatorTest();
+		//mergeAndConcatOperatorTest();
+		zipOperatorTest();
+	}
+
+	public static void zipOperatorTest() {
+		Flux<String> flux1 = Flux.just("José", "Alejandro");
+		Flux<String> flux2 = Flux.just("Ramirez", "Rivera");
+
+		Flux.zip(flux1, flux2, (f1, f2) -> f1.concat(" ").concat(f2)).log().subscribe();
+	}
+
+	public static void mergeAndConcatOperatorTest() {
+		Mono<String> mono1 = Mono.just("José");
+		Mono<String> mono2 = Mono.just("Ramirez");
+
+		//Mono.from(mono1).mergeWith(mono2).log().subscribe();
+		//Flux.merge(mono1, mono2).log().subscribe();
+		Flux.concat(mono1, mono2).log().subscribe();
+	}
+
+	public static void mapAndFilterOperatorTest() {
+		String[] nombres = new String[]{"Jose", "Jane", "Mary", "Bob"};
+		// List<String> heroes = List.of("Jos", "Ram");
+
+		Flux.fromArray(nombres).map(String::toUpperCase)
+				.filter(s -> s.length() > 3)
+				.log()
+				.subscribe();
+
+		System.out.println(Arrays.toString(nombres)); // no se muta los datos originales
+	}
+
+	public static void flatMapOperatorTest() {
+		String[] nombres = new String[]{"Jose", "Jane", "Mary", "Bob"};
+		// List<String> heroes = List.of("Jos", "Ram");
+
+		Flux.fromArray(nombres).flatMap(s ->
+						//Flux.just(new Heroe(s), new Heroe(s), new Heroe(s), new Heroe(s))
+						Mono.just(new Heroe(s))
+				)
+				.map(Heroe::getName)
+				.log()
+				.subscribe();
+
+		System.out.println(Arrays.toString(nombres)); // no se muta los datos originales
+
 	}
 
 	public static void mono_squad() {
